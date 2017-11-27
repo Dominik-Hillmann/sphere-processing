@@ -1,6 +1,6 @@
 package sphere;
 import processing.core.*;
-@SuppressWarnings({"static-access" })
+@SuppressWarnings({"static-access"})
 
 public class Layer 
 {
@@ -12,8 +12,7 @@ public class Layer
 	
 	Layer(int x1, int x2, int y1, int y2, int numPoints, PApplet parent)
 	{
-		if(y1 != y2)
-			System.out.println("Borders in layer do not have same height!");
+		if(y1 != y2) System.out.println("Borders in layer do not have same height!");
 		
 		p = parent; // Processing-Funktion rufen über z.B. p.map()
 		left = new Position(x1, y1);
@@ -40,9 +39,9 @@ public class Layer
 	
 	private void addPoints(int amount) // LATER PRIVATE??? and define it within class
 	{
-		PointArea area1Left  = new PointArea(left, 0.1, layerLen);
-		PointArea area2Left  = new PointArea(left, 0.1, 0.25, layerLen);
-		PointArea area3      = new PointArea(left, 0.25, 0.75, layerLen);
+		PointArea area1Left = new PointArea(left, 0.1, layerLen);
+		PointArea area2Left = new PointArea(left, 0.1, 0.25, layerLen);
+		PointArea area3 = new PointArea(left, 0.25, 0.75, layerLen);
 		PointArea area2Right = new PointArea(left, 0.75, 0.9, layerLen);
 		PointArea area1Right = new PointArea(left, right, 0.9, layerLen);
 		
