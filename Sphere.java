@@ -40,6 +40,7 @@ public class Sphere extends PApplet
 	{
 		// setting up the variables from above that will be worked with everywhere
 		cursor = new Cursor(new Position(mouseX, mouseY), WIDTH, this);
+		System.out.println(cursor);
 		
 		Position[][] circlePositions = new Position[WIDTH][HEIGHT];
 		int[][] circleDists = new int[WIDTH][HEIGHT];
@@ -50,19 +51,18 @@ public class Sphere extends PApplet
 				circlePositions[x][y] = new Position(x, y);
 				circleDists[x][y] = distance(circlePositions[x][y], middlePos);
 			}
+		
+		System.out.println(WIDTH * HEIGHT);
 				
 		int circleCounter = 0;
 		Position[] newCirclePos;
+		
 		for(int x = 0; x < WIDTH; x++)
 			for(int y = 0; y < HEIGHT; y++)
-			{
-				System.out.println(circleDists[x][y]);
 				if(circleDists[x][y] == SPHERE_RADIUS)
-				{
 					circleCounter++;
-					System.out.println(circleDists[x][y] == SPHERE_RADIUS);
-				}
-			}
+				
+			
 		System.out.print("counter: ");
 		System.out.println(circleCounter);
 					
@@ -75,17 +75,19 @@ public class Sphere extends PApplet
 					newCirclePos[circleCounter] = new Position(x, y);
 					circleCounter++;
 				}
+		
 		System.out.print("counter: ");
 		System.out.println(circleCounter);
 		
 		
 		
-		Position[] leftPos = new Position[circleCounter / 2];
+		Position[] leftPos = new Position[(circleCounter / 2) + (circleCounter % 2)];
 		int leftCounter = 0;
-		Position[] rightPos = new Position[circleCounter / 2];
+		Position[] rightPos = new Position[(circleCounter / 2) + (circleCounter % 2)];
 		int rightCounter = 0;
 		
 		for(int i = 0; i < newCirclePos.length; i++)
+		{
 			if(newCirclePos[i].x < (WIDTH / 2))
 			{
 				leftPos[leftCounter] = newCirclePos[i];
@@ -96,45 +98,65 @@ public class Sphere extends PApplet
 				rightPos[rightCounter] = newCirclePos[i];
 				rightCounter++;
 			}
+		}
+		System.out.print("right: ");
 		System.out.println(rightCounter);
+		System.out.print("left: ");
 		System.out.println(leftCounter);
 		
-		layers = new Layer[rightCounter];
-		int layerCounter = 0;
-		
-		if(leftCounter != rightCounter) System.out.println("Ungleiche Laenger der Arrays");
-		
-		for(int y = 0; y < HEIGHT; y++)
+		for(int i = 0; i < rightCounter; i++)
 		{
-			Position found;
-			for(int i = 0; i < leftCounter; i++)
-			{
-				Position found2;
-				if(leftPos[i].y == y)
-				{
-					found = leftPos[i];
-				
-					for(int j = 0; j < leftCounter; j++)
-						if(rightPos[j].y == y)
-						{
-							found2 = rightPos[j];
-							layers[layerCounter] = new Layer(found, found2, 5, this);
-							layerCounter++;
-							continue;
-						}
-				}
-			}
+			System.out.print(leftPos[i].x);
+			System.out.print("|");
+			System.out.println(leftPos[i].y);
+			
+			System.out.print(rightPos[i].x);
+			System.out.print("|");
+			System.out.println(rightPos[i].y);
 		}
-		System.out.println(layers.length);
+		
+		
+		int matchCounter = 0;
+		
+		for(int i = 0; i < rightCounter; i++)
+			for(int j = 0; j < rightCounter; j++)
+				if(leftPos[i].y == rightPos[j].y)
+				{
+					matchCounter++;
+					j = rightCounter; // so that there will be no other Points on the same height found
+				}
+		
+		layers = new Layer[matchCounter];
+		matchCounter = 0;
+		
+		for(int i = 0; i < leftCounter; i++)
+			for(int j = 0; j < rightCounter; j++)
+				if(leftPos[i].y == rightPos[j].y)
+				{
+					layers[matchCounter] = new Layer(leftPos[i], rightPos[j], 3, this);
+					matchCounter++;
+					j = rightCounter;
+				}
+		
+		for(int i = 0; i < layers.length; i++)
+			System.out.println(layers[i]);
+				
+		System.out.println(matchCounter);
+		//int layerCounter = 0;
+		
+		//if(leftCounter != rightCounter) System.out.println("Ungleiche Laenge der Arrays");
+		
+		
 	}
 		
 	public void draw()
 	{
 		background(0, 0, 0);
+		//cursor.update();
+		
 		for(int i = 0; i < layers.length; i++)
 		{
-			layers[i].movePoints(cursor);
-			layers[i].drawPoints(1, 5, 5, WIDTH);
+			layers[i].drawPoints(2, 5, 3, WIDTH);
 		}
 	}		
 }

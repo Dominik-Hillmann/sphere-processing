@@ -147,6 +147,7 @@ public class Layer
 		for(int i = 0; i < points.length; i++)
 		{
 			CirclePos point = points[i];
+			System.out.println(point.x);
 			int x = point.x;
 			int y = point.y;
 			int r = point.color.r;
