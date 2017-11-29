@@ -5,8 +5,8 @@ import processing.core.PApplet;
 
 public class Sphere extends PApplet
 {
-	final int WIDTH = 401;
-	final int HEIGHT = 401;
+	final int WIDTH = 801;
+	final int HEIGHT = 801;
 	final int SPHERE_RADIUS = 255;
 	
 	Cursor cursor;
@@ -42,28 +42,31 @@ public class Sphere extends PApplet
 		cursor = new Cursor(new Position(mouseX, mouseY), WIDTH, this);
 		System.out.println(cursor);
 		
+		// array for all possible positions at first
 		Position[][] circlePositions = new Position[WIDTH][HEIGHT];
 		int[][] circleDists = new int[WIDTH][HEIGHT];
-		
+		// Werte initialisiert
 		for(int x = 0; x < WIDTH; x++)
+		{
 			for(int y = 0; y < HEIGHT; y++)
 			{
 				circlePositions[x][y] = new Position(x, y);
 				circleDists[x][y] = distance(circlePositions[x][y], middlePos);
 			}
-		
+		}
 		System.out.println(WIDTH * HEIGHT);
-				
-		int circleCounter = 0;
-		Position[] newCirclePos;
 		
+		
+		// filtering out all positions not having a dist of SPHERE_RADIUS to middlePos
+		int circleCounter = 0;
+		Position[] newCirclePos;		
 		for(int x = 0; x < WIDTH; x++)
 			for(int y = 0; y < HEIGHT; y++)
 				if(circleDists[x][y] == SPHERE_RADIUS)
 					circleCounter++;
 				
 			
-		System.out.print("counter: ");
+		System.out.print("counter:  ");
 		System.out.println(circleCounter);
 					
 		newCirclePos = new Position[circleCounter];
@@ -76,15 +79,17 @@ public class Sphere extends PApplet
 					circleCounter++;
 				}
 		
-		System.out.print("counter: ");
+		System.out.print("counter2: ");;
 		System.out.println(circleCounter);
 		
 		
 		
-		Position[] leftPos = new Position[(circleCounter / 2) + (circleCounter % 2)];
+		Position[] leftPos = new Position[circleCounter / 2];
 		int leftCounter = 0;
-		Position[] rightPos = new Position[(circleCounter / 2) + (circleCounter % 2)];
+		Position[] rightPos = new Position[(circleCounter / 2)];
 		int rightCounter = 0;
+		
+		System.out.print(leftPos.length); System.out.print("|"); System.out.println(rightPos.length);
 		
 		for(int i = 0; i < newCirclePos.length; i++)
 		{
@@ -92,13 +97,16 @@ public class Sphere extends PApplet
 			{
 				leftPos[leftCounter] = newCirclePos[i];
 				leftCounter++;
+				if(leftCounter == leftPos.length - 1) break;
 			}
 			else
 			{
 				rightPos[rightCounter] = newCirclePos[i];
 				rightCounter++;
+				if(rightCounter == rightPos.length - 1) break;
 			}
 		}
+		
 		System.out.print("right: ");
 		System.out.println(rightCounter);
 		System.out.print("left: ");
@@ -156,7 +164,9 @@ public class Sphere extends PApplet
 		
 		for(int i = 0; i < layers.length; i++)
 		{
-			layers[i].drawPoints(2, 5, 3, WIDTH);
+			//layers[i].drawPoints(2, 5, 3, WIDTH);
+			
+			ellipse((float) layers[i].left.x, (float) layers[i].left.y, (float) 3.0, (float) 3.0);
 		}
 	}		
 }

@@ -5,7 +5,7 @@ import processing.core.*;
 public class Layer 
 {
 	private PApplet p;
-	private Position left;
+	public Position left; // back to private!
 	private Position right;
 	private int layerLen;
 	private CirclePos[] points;	
