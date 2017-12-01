@@ -9,11 +9,12 @@ public class Cursor
 	public double relX;
 	private PApplet p;
 	
-	Cursor(Position position, int width, PApplet parent)
+	Cursor(Position position, int inWidth, PApplet parent)
 	{
 		last = position;
 		current = position;
         p = parent;
+        width = inWidth;
 		
 		relX = ((current.x - width / 2) / width) * 0.05;
 	}
