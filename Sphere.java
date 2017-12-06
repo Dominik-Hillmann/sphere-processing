@@ -2,7 +2,6 @@ package sphere;
 import processing.core.PApplet;
 
 
-
 public class Sphere extends PApplet
 {
 	final int WIDTH = 801;
@@ -70,36 +69,80 @@ public class Sphere extends PApplet
 					counter++;
 				}
 		
-		// now the layers have to be constructed, with positions that have the same y but the left position needs x < WIDTH/2 and on the right x >= WIDTH/2
-		int currentY, currentX;
-		counter = 0; // counting the times a match was found
+		// now the layers have to be constructed, the following way
+		// we take the filtered array and divide into two arrays: one for the left part with x < WIDTH / 2, the right one with x > WIDTH / 2
+		// left array: first count, than add the positions
+		counter = 0;
 		for(int i = 0; i < filtCirclePos.length; i++)
-		{
-			currentY = filtCirclePos[i].y;
-			currentX = filtCirclePos[i].x;
-			if(currentX < WIDTH / 2)
+			if(filtCirclePos[i].x < (WIDTH / 2))
+				counter++;
+		
+		Position[] leftPos = new Position[counter];
+		counter = 0;
+		for(int i = 0; i < filtCirclePos.length; i++)
+			if(filtCirclePos[i].x < (WIDTH / 2))
 			{
-				for(int j = 0; j < filtCirclePos.length; j++)
-				{
-					if(i == j) continue; // do not test if it is the same position
-					if((filtCirclePos[j].y == currentY) && (filtCirclePos[j].x > WIDTH / 2))
-					{
-						counter++;
-						System.out.print(filtCirclePos[i].x);
-						System.out.print("|");
-						System.out.print(filtCirclePos[i].y);
-						System.out.print(" // ");
-						System.out.print(filtCirclePos[j].x);
-						System.out.print("|");
-						System.out.println(filtCirclePos[j].y); // Probleme weitere y-Werte
-					}
-				}
+				leftPos[counter] = filtCirclePos[i];
+				counter++;
 			}
-		}
+		
+		// now we do the same for all the positions that are on the right: x >= WIDTH / 2
+		counter = 0;
+		for(int i = 0; i < filtCirclePos.length; i++)
+			if(filtCirclePos[i].x < (WIDTH / 2))
+				counter++;
+		
+		Position[] rightPos = new Position[counter];
+		counter = 0;
+		for(int i = 0; i < filtCirclePos.length; i++)
+			if(filtCirclePos[i].x < (WIDTH / 2))
+			{
+				rightPos[counter] = filtCirclePos[i];
+				counter++;
+			}
+		
+		
+		// now that we have these distinct groups, we can start constructing the layer from a left position and right position on the same height (y)
+		
+		// test whether all y positions are ordered
+		for(int i = 0; i < counter; i++)
+			for(int j = 0; j < counter; j++)
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		// now we create the layers because we know how many there are
-		layers = new Layer[counter];
-		System.out.println(counter);
+		for(int i = 0; i < leftPos.length; i++)
+		{
+			System.out.print(leftPos[i].x);
+			System.out.print("|");
+			System.out.println(leftPos[i].y);
+		}
 	}
 
 	public void draw()
